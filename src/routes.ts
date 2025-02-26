@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { login } from "./controllers/login-controller";
+import * as petController from "./controllers/pet-controller";
+
+const router = Router();
+
+// router.get("/", login);
+router.post("/pet", petController.postPet);
+router.delete("/pet", petController.deletePet);
+router.get("/pet", petController.getPet);
+
+export default router;
