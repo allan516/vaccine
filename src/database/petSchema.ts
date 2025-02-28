@@ -4,8 +4,8 @@ import { IPetData } from "../models/IPetData";
 const { Schema } = mongoose;
 
 const userSchema = new Schema<IPetData>({
-  name: String,
-  age: Number,
+  name: { type: String, required: true, unique: true },
+  age: { type: Number, required: true },
   vaccines: [],
 });
 

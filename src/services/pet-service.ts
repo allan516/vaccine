@@ -2,6 +2,7 @@ import User from "../database/petSchema";
 import { IPetData } from "../models/IPetData";
 import {
   createPetRepository,
+  delPetRepository,
   getPetRepository,
 } from "../repositories/pet-repositories";
 
@@ -32,7 +33,10 @@ export const createPetService = async (body: IPetData) => {
   }
 };
 
-export const deletePetService = async () => {};
+export const deletePetService = async (petId: string) => {
+  return delPetRepository(petId);
+};
+
 export const getPetService = async () => {
   return getPetRepository();
 };

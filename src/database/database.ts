@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import User from "./petSchema";
 
 const database = process.env.DATABASE as string;
 

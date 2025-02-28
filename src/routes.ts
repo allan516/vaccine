@@ -6,7 +6,7 @@ const router = Router();
 
 // router.get("/", login);
 router.post("/pet", petController.postPet);
-router.delete("/pet", petController.deletePet);
+router.delete("/pet/:id", petController.deletePet);
 router.get("/pet", petController.getPet);
 
 export default router;
