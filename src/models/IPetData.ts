@@ -1,5 +1,5 @@
 export interface IPetData {
   name: string;
   age: number;
-  vaccines: string[];
+  vaccines: { name: string; date: Date }[];
 }

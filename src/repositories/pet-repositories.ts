@@ -11,8 +11,21 @@ export const createPetRepository = async (body: IPetData) => {
   await novoPet.save();
 };
 
+export const updatePetRepository = async (petId: string, body: IPetData) => {
+  const updatePet = await User.findByIdAndUpdate(
+    petId,
+    {
+      name: body.name,
+      age: body.age,
+    },
+    { new: true }
+  );
+
+  return updatePet;
+};
+
 export const delPetRepository = async (petId: string) => {
-  const pet = await User.findByIdAndDelete({ _id: petId });
+  const pet = await User.findOneAndDelete({ _id: petId });
   return pet;
 };
 

@@ -5,6 +5,7 @@ import {
   createPetRepository,
   delPetRepository,
   getPetRepository,
+  updatePetRepository,
 } from "../repositories/pet-repositories";
 
 export const createPetService = async (body: IPetData) => {
@@ -32,8 +33,44 @@ export const createPetService = async (body: IPetData) => {
     response = await httpResponse.ok(bodyPet);
     return response;
   } catch (error) {
-    console.error(error);
-    response = httpResponse.badRequest();
+    console.error("Ocorreu um erro: " + error);
+    response = await httpResponse.badRequest();
+    return response;
+  }
+};
+
+export const updatePetService = async (petId: string, body: IPetData) => {
+  let response = null;
+  try {
+    const petExisting = await User.findOne({ name: body.name });
+
+    if (petExisting) {
+      throw new Error("Digite um nome diferente do atual. ");
+    }
+
+    if (typeof body.name !== "string" || typeof body.age !== "number") {
+      throw new Error("Nome ou Idade inválida");
+    }
+
+    if (body.name.length < 2) {
+      throw new Error("Nome precisa ter pelo menos 2 caracteres.");
+    }
+
+    if (body.age < 0 || body.age > 18) {
+      throw new Error("Idade inválida.");
+    }
+
+    const updatePet = await updatePetRepository(petId, body);
+
+    if (updatePet === null || updatePet === undefined) {
+      throw new Error("Pet não encontrado");
+    }
+
+    response = await httpResponse.ok(updatePet);
+    return response;
+  } catch (error) {
+    console.error("Ocorreu um erro: " + error);
+    response = await httpResponse.badRequest();
     return response;
   }
 };
@@ -45,12 +82,13 @@ export const deletePetService = async (petId: string) => {
     const deletePet = await delPetRepository(petId);
 
     if (deletePet === null) {
-      response = await httpResponse.noContent();
+      throw new Error("Pet não encontrado.");
     } else {
       response = await httpResponse.ok(deletePet);
     }
     return response;
   } catch (error) {
+    console.error("Ocorreu um erro: " + error);
     response = await httpResponse.badRequest();
     return response;
   }
