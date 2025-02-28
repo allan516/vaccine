@@ -8,6 +8,7 @@ import {
 } from "../repositories/pet-repositories";
 
 export const createPetService = async (body: IPetData) => {
+  let response = null;
   try {
     const petExisting = await User.findOne({ name: body.name });
     const numberOfPet = await User.countDocuments();
@@ -27,10 +28,13 @@ export const createPetService = async (body: IPetData) => {
     if (numberOfPet === 3) {
       throw new Error("Número máximo de pets criado. ");
     }
-
-    return await createPetRepository(body);
+    const bodyPet = await createPetRepository(body);
+    response = await httpResponse.ok(bodyPet);
+    return response;
   } catch (error) {
-    throw new Error("Erro ao criar pet: " + error);
+    console.error(error);
+    response = httpResponse.badRequest();
+    return response;
   }
 };
 
@@ -47,7 +51,6 @@ export const deletePetService = async (petId: string) => {
     }
     return response;
   } catch (error) {
-    console.log(error);
     response = await httpResponse.badRequest();
     return response;
   }
@@ -65,7 +68,6 @@ export const getPetService = async () => {
 
     return response;
   } catch (error) {
-    console.log(error);
     response = await httpResponse.badRequest();
     return response;
   }
