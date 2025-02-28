@@ -12,24 +12,12 @@ export const postPet = async (req: Request, res: Response) => {
 };
 
 export const deletePet = async (req: Request, res: Response) => {
-  try {
-    const petId = req.params.id;
-    const response = await service.deletePetService(petId);
-    if (response === null) {
-      throw new Error("ID inexistente ou nulo");
-    }
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "ID não encontrado. " });
-  }
+  const petId = req.params.id;
+  const response = await service.deletePetService(petId);
+  res.status(response.statusCode).json(response.body);
 };
 
 export const getPet = async (req: Request, res: Response) => {
-  try {
-    const response = await service.getPetService();
-    res.status(200).json(response);
-  } catch (error) {
-    res.status(500).json({ error: "Erro" });
-  }
+  const response = await service.getPetService();
+  res.status(response.statusCode).json(response.body);
 };

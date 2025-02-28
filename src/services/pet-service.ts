@@ -1,5 +1,6 @@
 import User from "../database/petSchema";
 import { IPetData } from "../models/IPetData";
+import * as httpResponse from "../utils/https-helper";
 import {
   createPetRepository,
   delPetRepository,
@@ -34,9 +35,38 @@ export const createPetService = async (body: IPetData) => {
 };
 
 export const deletePetService = async (petId: string) => {
-  return delPetRepository(petId);
+  let response = null;
+
+  try {
+    const deletePet = await delPetRepository(petId);
+
+    if (deletePet === null) {
+      response = await httpResponse.noContent();
+    } else {
+      response = await httpResponse.ok(deletePet);
+    }
+    return response;
+  } catch (error) {
+    console.log(error);
+    response = await httpResponse.badRequest();
+    return response;
+  }
 };
 
 export const getPetService = async () => {
-  return getPetRepository();
+  let response = null;
+  try {
+    const pet = await getPetRepository();
+    if (pet.length > 0) {
+      response = await httpResponse.ok(pet);
+    } else {
+      response = await httpResponse.noContent();
+    }
+
+    return response;
+  } catch (error) {
+    console.log(error);
+    response = await httpResponse.badRequest();
+    return response;
+  }
 };
