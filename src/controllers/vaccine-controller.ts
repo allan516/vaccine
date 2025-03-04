@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as service from "../services/vaccine-service";
 import { IHttpResponse } from "../models/IHttpResponse";
 import { IPetData, IpetVaccine } from "../models/IPetData";
+import { deleteVaccineService } from "../services/vaccine-service";
 
 // router.post("/pet/:id/vaccine", vaccineController.postVaccine);
 // router.delete("/pet/:id/vaccine/:vaccineName", vaccineController.deleteVaccine);
@@ -22,8 +23,8 @@ export const postVaccine = async (req: Request, res: Response) => {
 export const getVaccine = async (req: Request, res: Response) => {};
 
 export const updateVaccine = async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const vaccineName = req.params.vaccineName;
+  const id: string = req.params.id;
+  const vaccineName: string = req.params.vaccineName;
   const vaccine: IpetVaccine = req.body;
   const response = (await service.updateVaccineService(
     id,
@@ -34,4 +35,12 @@ export const updateVaccine = async (req: Request, res: Response) => {
   res.status(response.statusCode).json(response.body);
 };
 
-export const deleteVaccine = async (req: Request, res: Response) => {};
+export const deleteVaccine = async (req: Request, res: Response) => {
+  const id: string = req.params.id;
+  const vaccineName: string = req.params.vaccineName;
+  const response = (await deleteVaccineService(
+    id,
+    vaccineName
+  )) as IHttpResponse;
+  res.status(response.statusCode).json(response.body);
+};

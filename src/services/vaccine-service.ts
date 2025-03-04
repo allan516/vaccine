@@ -1,6 +1,7 @@
 import { IPetData, IpetVaccine } from "../models/IPetData";
 import {
   createVaccineRepository,
+  deleteVaccineRepository,
   updateVaccineRepository,
 } from "../repositories/vaccine-respositories";
 import * as httpResponse from "../utils/https-helper";
@@ -28,6 +29,16 @@ export const updateVaccineService = async (
       vaccine
     );
     const response = await httpResponse.ok(updateVaccine);
+    return response;
+  } catch (error) {
+    console.error("Ocorreu um erro: " + error);
+  }
+};
+
+export const deleteVaccineService = async (id: string, vaccineName: string) => {
+  try {
+    const deleteVaccine = deleteVaccineRepository(id, vaccineName);
+    const response = httpResponse.ok(deleteVaccine);
     return response;
   } catch (error) {
     console.error("Ocorreu um erro: " + error);

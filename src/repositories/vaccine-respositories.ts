@@ -39,6 +39,19 @@ export const updateVaccineRepository = async (
   return response;
 };
 
+export const deleteVaccineRepository = async (
+  id: string,
+  vaccineName: string
+) => {
+  const deleteVaccine = await User.findOneAndUpdate(
+    { _id: id, "vaccines.name": vaccineName },
+    { $pull: { vaccines: { name: vaccineName } } },
+    { new: true }
+  );
+
+  return deleteVaccine;
+};
+
 /*
 Condição de busca ({ _id: petId, "vaccines.name": vaccineName }):
 
