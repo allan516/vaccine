@@ -30,6 +30,11 @@ export const delPetRepository = async (petId: string) => {
 };
 
 export const getPetRepository = async () => {
-  const pet = await User.find({});
+  const pet = await User.find({}, "-vaccines -__v");
   return pet;
+};
+
+export const getPetByIdRepository = async (id: string) => {
+  const response = await User.findById(id, "-__v");
+  return response;
 };

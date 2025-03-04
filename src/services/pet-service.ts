@@ -1,12 +1,7 @@
 import User from "../database/petSchema";
 import { IPetData } from "../models/IPetData";
 import * as httpResponse from "../utils/https-helper";
-import {
-  createPetRepository,
-  delPetRepository,
-  getPetRepository,
-  updatePetRepository,
-} from "../repositories/pet-repositories";
+import * as repository from "../repositories/pet-repositories";
 
 export const createPetService = async (body: IPetData) => {
   let response = null;
@@ -29,7 +24,7 @@ export const createPetService = async (body: IPetData) => {
     if (numberOfPet === 3) {
       throw new Error("Número máximo de pets criado. ");
     }
-    const bodyPet = await createPetRepository(body);
+    const bodyPet = await repository.createPetRepository(body);
     response = await httpResponse.ok(bodyPet);
     return response;
   } catch (error) {
@@ -60,7 +55,7 @@ export const updatePetService = async (petId: string, body: IPetData) => {
       throw new Error("Idade inválida.");
     }
 
-    const updatePet = await updatePetRepository(petId, body);
+    const updatePet = await repository.updatePetRepository(petId, body);
 
     if (updatePet === null || updatePet === undefined) {
       throw new Error("Pet não encontrado");
@@ -79,7 +74,7 @@ export const deletePetService = async (petId: string) => {
   let response = null;
 
   try {
-    const deletePet = await delPetRepository(petId);
+    const deletePet = await repository.delPetRepository(petId);
 
     if (deletePet === null) {
       throw new Error("Pet não encontrado.");
@@ -97,7 +92,7 @@ export const deletePetService = async (petId: string) => {
 export const getPetService = async () => {
   let response = null;
   try {
-    const pet = await getPetRepository();
+    const pet = await repository.getPetRepository();
     if (pet.length > 0) {
       response = await httpResponse.ok(pet);
     } else {
@@ -108,5 +103,15 @@ export const getPetService = async () => {
   } catch (error) {
     response = await httpResponse.badRequest();
     return response;
+  }
+};
+
+export const getPetByIdService = async (id: string) => {
+  try {
+    const getPetById = await repository.getPetByIdRepository(id);
+    const response = await httpResponse.ok(getPetById);
+    return response;
+  } catch (error) {
+    console.error("Ocorreu um erro: " + error);
   }
 };
