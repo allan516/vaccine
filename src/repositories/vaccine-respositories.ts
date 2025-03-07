@@ -44,6 +44,7 @@ export const deleteVaccineRepository = async (
   vaccineName: string
 ) => {
   const deleteVaccine = await User.findOneAndUpdate(
+    // Procura pelo id e nome da vacina
     { _id: id, "vaccines.name": vaccineName },
     { $pull: { vaccines: { name: vaccineName } } },
     { new: true }

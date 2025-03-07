@@ -1,5 +1,5 @@
-import { IHttpResponse } from "../models/IHttpResponse";
-import { IPetData, IpetVaccine } from "../models/IPetData";
+import mongoose from "mongoose";
+import { IpetVaccine } from "../models/IPetData";
 import {
   createVaccineRepository,
   deleteVaccineRepository,
@@ -13,10 +13,17 @@ export const createVaccineService = async (
   vaccineName: IpetVaccine
 ) => {
   try {
+    if (vaccineName.name === "") {
+      throw new Error("Digite um nome válido de vacina.");
+    }
     const createVaccine = await createVaccineRepository(petId, vaccineName);
     const response = await httpResponse.ok(createVaccine);
     return response;
-  } catch (error) {}
+  } catch (error) {
+    console.error("Ocorreu um erro: " + error);
+    const response = await httpResponse.badRequest();
+    return response;
+  }
 };
 
 export const updateVaccineService = async (

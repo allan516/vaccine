@@ -97,10 +97,12 @@ export const getPetService = async () => {
       response = await httpResponse.ok(pet);
     } else {
       response = await httpResponse.noContent();
+      throw new Error("Lista de pets vazia");
     }
 
     return response;
   } catch (error) {
+    console.error("Ocorreu um erro: " + error);
     response = await httpResponse.badRequest();
     return response;
   }
@@ -113,5 +115,7 @@ export const getPetByIdService = async (id: string) => {
     return response;
   } catch (error) {
     console.error("Ocorreu um erro: " + error);
+    const response = await httpResponse.badRequest();
+    return response;
   }
 };
