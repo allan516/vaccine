@@ -1,5 +1,5 @@
 import User from "../database/petSchema";
-import { IPetData, IpetVaccine } from "../models/IPetData";
+import { IpetVaccine } from "../models/IPetData";
 
 export const createVaccineRepository = async (
   petId: string,
