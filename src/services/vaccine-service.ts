@@ -21,6 +21,7 @@ export const createVaccineService = async (
     }
 
     const vaccineExisting = await User.findOne({
+      _id: petId,
       "vaccines.name": vaccineName.name,
     });
 
@@ -52,6 +53,7 @@ export const updateVaccineService = async (
     }
 
     const vaccineExisting = await User.findOne({
+      _id: petId,
       "vaccines.name": vaccine.name,
     });
 
