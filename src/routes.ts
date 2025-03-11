@@ -5,7 +5,7 @@ import * as vaccineController from "./controllers/vaccine-controller";
 
 const router = Router();
 
-// router.get("/", login);
+// router.post("/", login);
 router.post("/pet", petController.postPet);
 router.delete("/pet/:id", petController.deletePet);
 router.patch("/pet/:id", petController.updatePet);
