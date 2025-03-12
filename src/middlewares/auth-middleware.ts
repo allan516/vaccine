@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import Jwt from "jsonwebtoken";
+import * as httpResponse from "../utils/https-helper";
+import { IHttpResponse } from "../models/IHttpResponse";
 
 export const authMiddleware = async (
   req: Request,
@@ -8,15 +10,18 @@ export const authMiddleware = async (
 ) => {
   const token = req.headers.authorization?.split(" ")[1] as string;
   const secretKey = process.env.JWT_SECRET as string;
+  let response: IHttpResponse | null = null;
 
   try {
     if (!token) {
-      res.status(403).json({ message: "Token não fornecido" });
+      response = await httpResponse.unauthorized();
+      res.status(response.statusCode).json(response.body);
     }
 
-    Jwt.verify(token, secretKey, (err, decoded) => {
+    Jwt.verify(token, secretKey, async (err, decoded) => {
       if (err) {
-        return res.status(403).json({ message: "Token inválido" });
+        response = await httpResponse.unauthorized();
+        return res.status(response.statusCode).json(response.body);
       }
       req.user = decoded;
       next();

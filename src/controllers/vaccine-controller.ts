@@ -1,16 +1,11 @@
 import { Request, Response } from "express";
 import * as service from "../services/vaccine-service";
 import { IHttpResponse } from "../models/IHttpResponse";
-import { IPetData, IpetVaccine } from "../models/IPetData";
+import { IpetVaccine } from "../models/IPetData";
 import {
   deleteVaccineService,
   getVaccineService,
 } from "../services/vaccine-service";
-
-// router.post("/pet/:id/vaccine", vaccineController.postVaccine);
-// router.delete("/pet/:id/vaccine/:vaccineName", vaccineController.deleteVaccine);
-// router.patch("/pet/:id/vaccine/:vaccineName", vaccineController.updateVaccine);
-// router.get("/pet/:id/vaccine", vaccineController.getVaccine);
 
 export const postVaccine = async (req: Request, res: Response) => {
   const petId: string = req.params.id;

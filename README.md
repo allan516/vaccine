@@ -27,3 +27,4 @@ O **Vaccine** é uma API REST desenvolvida para gerenciar a vacinação de pets.
 - **Express**
 - **TypeScript**
 - **MongoDB** Com Mongoose e MongoDB Atlas
+- **Jwt** para rotas protegidas

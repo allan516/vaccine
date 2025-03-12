@@ -12,6 +12,10 @@ export const badRequest = async (): Promise<IHttpResponse> => {
   return { statusCode: 400, body: null };
 };
 
+export const unauthorized = async (): Promise<IHttpResponse> => {
+  return { statusCode: 401, body: { message: "Não autorizado" } };
+};
+
 export const created = async (): Promise<IHttpResponse> => {
   return { statusCode: 201, body: { message: "sucesso" } };
 };
