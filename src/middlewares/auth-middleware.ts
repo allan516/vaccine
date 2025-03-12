@@ -6,18 +6,22 @@ export const authMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.headers["authorization"] as string;
+  const token = req.headers.authorization?.split(" ")[1] as string;
   const secretKey = process.env.JWT_SECRET as string;
 
-  if (!token) {
-    res.status(403).json({ message: "Token não fornecido" });
-  }
-
-  Jwt.verify(token, secretKey, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: "Token inválido" });
+  try {
+    if (!token) {
+      res.status(403).json({ message: "Token não fornecido" });
     }
-    req.user = decoded;
-    next();
-  });
+
+    Jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ message: "Token inválido" });
+      }
+      req.user = decoded;
+      next();
+    });
+  } catch (error) {
+    console.error("Ocorreu um Erro: " + error);
+  }
 };
