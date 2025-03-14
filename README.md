@@ -6,6 +6,12 @@ O **Vaccine** é uma API REST desenvolvida para gerenciar a vacinação de pets.
 
 ## Funcionalidades
 
+### Login
+
+Todas as rotas são autenticadas
+
+- `POST /login` - para logar o usuário
+
 ### Gerenciamento de Pets
 
 - `POST /pet` - Cadastra um novo pet.

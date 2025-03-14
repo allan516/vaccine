@@ -15,7 +15,7 @@ export const authMiddleware = async (
   try {
     if (!token) {
       response = await httpResponse.unauthorized();
-      res.status(response.statusCode).json(response.body);
+      return res.status(response.statusCode).json(response.body);
     }
 
     Jwt.verify(token, secretKey, async (err, decoded) => {
