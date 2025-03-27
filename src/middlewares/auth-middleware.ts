@@ -7,7 +7,7 @@ export const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   const token = req.headers.authorization?.split(" ")[1] as string;
   const secretKey = process.env.JWT_SECRET as string;
   let response: IHttpResponse | null = null;
@@ -15,7 +15,8 @@ export const authMiddleware = async (
   try {
     if (!token) {
       response = await httpResponse.unauthorized();
-      return res.status(response.statusCode).json(response.body);
+      res.status(response.statusCode).json(response.body);
+      return;
     }
 
     Jwt.verify(token, secretKey, async (err, decoded) => {
