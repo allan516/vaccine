@@ -93,11 +93,8 @@ export const getPetService = async () => {
   let response = null;
   try {
     const pet = await repository.getPetRepository();
-    if (pet.length > 0) {
+    if (pet.length >= 0) {
       response = await httpResponse.ok(pet);
-    } else {
-      response = await httpResponse.noContent();
-      throw new Error("Lista de pets vazia");
     }
 
     return response;

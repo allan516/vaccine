@@ -23,7 +23,7 @@ export const deletePet = async (req: Request, res: Response) => {
 };
 
 export const getPet = async (req: Request, res: Response) => {
-  const response = await service.getPetService();
+  const response = (await service.getPetService()) as IHttpResponse;
   res.status(response.statusCode).json(response.body);
 };
 
