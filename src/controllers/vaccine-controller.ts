@@ -26,11 +26,11 @@ export const getVaccine = async (req: Request, res: Response) => {
 
 export const updateVaccine = async (req: Request, res: Response) => {
   const id: string = req.params.id;
-  const vaccineName: string = req.params.vaccineName;
+  const vaccineId: string = req.params.vaccineId;
   const vaccine: IpetVaccine = req.body;
   const response = (await service.updateVaccineService(
     id,
-    vaccineName,
+    vaccineId,
     vaccine
   )) as IHttpResponse;
 
@@ -39,10 +39,10 @@ export const updateVaccine = async (req: Request, res: Response) => {
 
 export const deleteVaccine = async (req: Request, res: Response) => {
   const id: string = req.params.id;
-  const vaccineName: string = req.params.vaccineName;
+  const vaccineId: string = req.params.vaccineId;
   const response = (await deleteVaccineService(
     id,
-    vaccineName
+    vaccineId
   )) as IHttpResponse;
   res.status(response.statusCode).json(response.body);
 };

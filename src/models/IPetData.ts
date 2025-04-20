@@ -5,6 +5,7 @@ export interface IPetData {
 }
 
 export interface IpetVaccine {
+  id: string;
   name: string;
   date: Date;
 }

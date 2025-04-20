@@ -41,7 +41,7 @@ export const createVaccineService = async (
 
 export const updateVaccineService = async (
   petId: string,
-  vaccineName: string,
+  vaccineId: string,
   vaccine: IpetVaccine
 ) => {
   try {
@@ -58,12 +58,25 @@ export const updateVaccineService = async (
     });
 
     if (vaccineExisting) {
-      throw new Error("Está vacina já existe.");
+      vaccineExisting.vaccines.forEach((value) => {
+        if (
+          value.id.toString() !== vaccineId.toString() &&
+          value.name === vaccine.name
+        ) {
+          throw new Error("Está vacina já existe. ");
+        } else if (
+          value.id.toString() === vaccineId.toString() &&
+          value.name === vaccine.name &&
+          value.date === vaccine.date
+        ) {
+          throw new Error("Nenhum campo alterado");
+        }
+      });
     }
 
     const updateVaccine = await updateVaccineRepository(
       petId,
-      vaccineName,
+      vaccineId,
       vaccine
     );
     const response = await httpResponse.ok(updateVaccine);
@@ -75,9 +88,9 @@ export const updateVaccineService = async (
   }
 };
 
-export const deleteVaccineService = async (id: string, vaccineName: string) => {
+export const deleteVaccineService = async (id: string, vaccineId: string) => {
   try {
-    const deleteVaccine = await deleteVaccineRepository(id, vaccineName);
+    const deleteVaccine = await deleteVaccineRepository(id, vaccineId);
 
     if (!deleteVaccine) {
       throw new Error("Vacina não encontrada.");

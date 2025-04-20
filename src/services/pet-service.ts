@@ -37,11 +37,11 @@ export const createPetService = async (body: IPetData) => {
 export const updatePetService = async (petId: string, body: IPetData) => {
   let response = null;
   try {
-    const petExisting = await User.findOne({ name: body.name });
+    // const petExisting = await User.findOne({ name: body.name });
 
-    if (petExisting) {
-      throw new Error("Digite um nome diferente do atual. ");
-    }
+    // if (petExisting) {
+    //   throw new Error("Digite um nome diferente do atual. ");
+    // }
 
     if (typeof body.name !== "string" || typeof body.age !== "number") {
       throw new Error("Nome ou Idade inválida");

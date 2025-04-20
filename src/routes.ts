@@ -15,12 +15,12 @@ router.get("/pet/:id", authMiddleware, petController.getPetById);
 
 router.post("/pet/:id/vaccine", authMiddleware, vaccineController.postVaccine);
 router.delete(
-  "/pet/:id/vaccine/:vaccineName",
+  "/pet/:id/vaccine/:vaccineId",
   authMiddleware,
   vaccineController.deleteVaccine
 );
 router.patch(
-  "/pet/:id/vaccine/:vaccineName",
+  "/pet/:id/vaccine/:vaccineId",
   authMiddleware,
   vaccineController.updateVaccine
 );

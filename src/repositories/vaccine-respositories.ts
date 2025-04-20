@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User from "../database/petSchema";
 import { IpetVaccine } from "../models/IPetData";
 
@@ -10,6 +11,7 @@ export const createVaccineRepository = async (
     {
       $push: {
         vaccines: {
+          id: new mongoose.Types.ObjectId(),
           name: vaccineName.name,
           date: vaccineName.date || new Date(),
         },
@@ -22,12 +24,14 @@ export const createVaccineRepository = async (
 
 export const updateVaccineRepository = async (
   petId: string,
-  vaccineName: string,
+  vaccineId: string,
   vaccine: IpetVaccine
 ) => {
   const response = await User.findOneAndUpdate(
-    { _id: petId, "vaccines.name": vaccineName },
-
+    {
+      _id: new mongoose.Types.ObjectId(petId),
+      "vaccines.id": new mongoose.Types.ObjectId(vaccineId),
+    },
     {
       $set: {
         "vaccines.$.name": vaccine.name,
@@ -41,12 +45,12 @@ export const updateVaccineRepository = async (
 
 export const deleteVaccineRepository = async (
   id: string,
-  vaccineName: string
+  vaccineId: string
 ) => {
   const deleteVaccine = await User.findOneAndUpdate(
     // Procura pelo id e nome da vacina
-    { _id: id, "vaccines.name": vaccineName },
-    { $pull: { vaccines: { name: vaccineName } } },
+    { _id: id, "vaccines.id": new mongoose.Types.ObjectId(vaccineId) },
+    { $pull: { vaccines: { id: new mongoose.Types.ObjectId(vaccineId) } } },
     { new: true }
   );
 
