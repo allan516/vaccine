@@ -10,11 +10,11 @@ import User from "../database/petSchema";
 
 export const createVaccineService = async (
   petId: string,
-  vaccineName: IpetVaccine
+  vaccine: IpetVaccine
 ) => {
   try {
     const regex = /^[A-Za-z](?:[A-Za-z0-9]|\s(?!\s))*[A-Za-z0-9]$/;
-    const nameValidate = regex.test(vaccineName.name);
+    const nameValidate = regex.test(vaccine.name);
 
     if (!nameValidate) {
       throw new Error("Nome inválido");
@@ -22,14 +22,14 @@ export const createVaccineService = async (
 
     const vaccineExisting = await User.findOne({
       _id: petId,
-      "vaccines.name": vaccineName.name,
+      "vaccines.name": vaccine.name,
     });
 
     if (vaccineExisting) {
       throw new Error("Está vacina já existe.");
     }
 
-    const createVaccine = await createVaccineRepository(petId, vaccineName);
+    const createVaccine = await createVaccineRepository(petId, vaccine);
     const response = await httpResponse.ok(createVaccine);
     return response;
   } catch (error) {

@@ -9,10 +9,10 @@ import {
 
 export const postVaccine = async (req: Request, res: Response) => {
   const petId: string = req.params.id;
-  const vaccineName: IpetVaccine = req.body;
+  const vaccine: IpetVaccine = req.body;
   const response = (await service.createVaccineService(
     petId,
-    vaccineName
+    vaccine
   )) as IHttpResponse;
 
   res.status(response.statusCode).json(response.body);
@@ -40,9 +40,6 @@ export const updateVaccine = async (req: Request, res: Response) => {
 export const deleteVaccine = async (req: Request, res: Response) => {
   const id: string = req.params.id;
   const vaccineId: string = req.params.vaccineId;
-  const response = (await deleteVaccineService(
-    id,
-    vaccineId
-  )) as IHttpResponse;
+  const response = (await deleteVaccineService(id, vaccineId)) as IHttpResponse;
   res.status(response.statusCode).json(response.body);
 };

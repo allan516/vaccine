@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import User from "../database/petSchema";
-import { IpetVaccine } from "../models/IPetData";
+import { IpetVaccine, VaccineStatus } from "../models/IPetData";
 
 export const createVaccineRepository = async (
   petId: string,
-  vaccineName: IpetVaccine
+  vaccine: IpetVaccine
 ) => {
   const response = await User.findByIdAndUpdate(
     petId,
@@ -12,8 +12,9 @@ export const createVaccineRepository = async (
       $push: {
         vaccines: {
           id: new mongoose.Types.ObjectId(),
-          name: vaccineName.name,
-          date: vaccineName.date || new Date(),
+          name: vaccine.name,
+          date: vaccine.date || new Date(),
+          status: VaccineStatus.PENDING,
         },
       },
     },
