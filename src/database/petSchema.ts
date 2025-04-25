@@ -6,6 +6,8 @@ const { Schema } = mongoose;
 const userSchema = new Schema<IPetData>({
   name: { type: String, required: true, unique: true },
   age: { type: Number, required: true },
+  category: { type: String, required: true },
+  breed: { type: String, required: true },
   vaccines: [],
 });
 
