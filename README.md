@@ -23,8 +23,8 @@ Todas as rotas são autenticadas
 ### Gerenciamento de Vacinas
 
 - `POST /pet/:id/vaccine` - Adiciona uma nova vacina para um pet.
-- `DELETE /pet/:id/vaccine/:vaccineName` - Remove uma vacina de um pet.
-- `PATCH /pet/:id/vaccine/:vaccineName` - Atualiza informações de uma vacina de um pet.
+- `DELETE /pet/:id/vaccine/:vaccineId` - Remove uma vacina de um pet.
+- `PATCH /pet/:id/vaccine/:vaccineId` - Atualiza informações de uma vacina de um pet.
 - `GET /pet/:id/vaccine` - Retorna todas as vacinas de um pet.
 
 ## Tecnologias Utilizadas
