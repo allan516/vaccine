@@ -5,6 +5,8 @@ export const createPetRepository = async (body: IPetData) => {
   const novoPet = new User({
     name: body.name,
     age: body.age,
+    category: body.category,
+    breed: body.breed,
     vaccines: body.vaccines,
   });
 
@@ -17,6 +19,8 @@ export const updatePetRepository = async (petId: string, body: IPetData) => {
     {
       name: body.name,
       age: body.age,
+      category: body.category,
+      breed: body.breed,
     },
     { new: true }
   );

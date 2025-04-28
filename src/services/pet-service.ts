@@ -9,8 +9,13 @@ export const createPetService = async (body: IPetData) => {
     const petExisting = await User.findOne({ name: body.name });
     const numberOfPet = await User.countDocuments();
 
-    if (typeof body.name !== "string" || typeof body.age !== "number") {
-      throw new Error("Nome ou Idade inválida");
+    if (
+      typeof body.name !== "string" ||
+      typeof body.age !== "number" ||
+      typeof body.category !== "string" ||
+      typeof body.breed !== "string"
+    ) {
+      throw new Error("Entrada inválida.");
     }
 
     if (petExisting) {
@@ -19,6 +24,10 @@ export const createPetService = async (body: IPetData) => {
 
     if (body.age < 0 || body.age > 18) {
       throw new Error("Idade inválida.");
+    }
+
+    if (!body.name || !body.age || !body.category || !body.breed) {
+      throw new Error("Todos os campos precisam ser preenchidos.");
     }
 
     if (numberOfPet === 3) {
