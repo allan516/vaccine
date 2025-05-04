@@ -21,7 +21,7 @@ export const createVaccineService = async (
     });
 
     //refatorar
-    const now = new Date(Date.now() - 3 * 60 * 60 * 1000);
+    const now = new Date();
     const dia = now.getDate();
     const mes = now.getMonth();
     const ano = now.getFullYear();
@@ -60,6 +60,20 @@ export const updateVaccineService = async (
   try {
     const regex = /^[A-Za-z](?:[A-Za-z0-9]|\s(?!\s))*[A-Za-z0-9]$/;
     const nameValidate = regex.test(vaccine.name);
+
+    //refatorar
+    const now = new Date();
+    const dia = now.getDate();
+    const mes = now.getMonth();
+    const ano = now.getFullYear();
+
+    const currentDate = new Date(Date.UTC(ano, mes, dia));
+    const dateInput = new Date(vaccine.date);
+
+    if (vaccine.date && currentDate > dateInput) {
+      console.log(currentDate, dateInput);
+      throw new Error("Data inválida");
+    }
 
     if (!nameValidate) {
       throw new Error("Nome inválido");
