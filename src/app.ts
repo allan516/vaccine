@@ -4,7 +4,11 @@ import cors from "cors";
 
 function createApp() {
   const app = express();
-  app.use(cors());
+  app.use(
+    cors({
+      origin: "https://vaccinecontrol.vercel.app",
+    })
+  );
   app.use(express.json());
   app.use("/", router);
   return app;
