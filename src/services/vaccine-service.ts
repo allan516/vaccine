@@ -1,4 +1,4 @@
-import { IpetVaccine } from "../models/IPetData";
+import { IpetVaccine, VaccineStatus } from "../models/IPetData";
 import {
   createVaccineRepository,
   deleteVaccineRepository,
@@ -30,7 +30,6 @@ export const createVaccineService = async (
     const dateInput = new Date(vaccine.date);
 
     if (vaccine.date && currentDate > dateInput) {
-      console.log(currentDate, dateInput);
       throw new Error("Data inválida");
     }
 
@@ -71,7 +70,6 @@ export const updateVaccineService = async (
     const dateInput = new Date(vaccine.date);
 
     if (vaccine.date && currentDate > dateInput) {
-      console.log(currentDate, dateInput);
       throw new Error("Data inválida");
     }
 
@@ -136,7 +134,20 @@ export const getVaccineService = async (id: string) => {
   try {
     const getVaccine = await getVaccineRepository(id);
 
-    if (!getVaccine?.vaccines || getVaccine.vaccines.length === 0) {
+    console.log(typeof getVaccine);
+
+    const now = new Date();
+    const dia = now.getDate();
+    const mes = now.getMonth();
+    const ano = now.getFullYear();
+
+    const currentDate = new Date(Date.UTC(ano, mes, dia));
+
+    if (currentDate > getVaccine.date) {
+      getVaccine.status = VaccineStatus.MISSED;
+    }
+
+    if (!getVaccine) {
       throw new Error("Lista de vacinas vazia!");
     }
 

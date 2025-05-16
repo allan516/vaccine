@@ -60,7 +60,7 @@ export const deleteVaccineRepository = async (
 
 export const getVaccineRepository = async (id: string) => {
   //retorna todas as vacinas menos o id
-  const getVaccine = await User.findById(id, "vaccines -_id");
+  const getVaccine = (await User.findById(id, "vaccines -_id")) as IpetVaccine;
   return getVaccine;
 };
 
