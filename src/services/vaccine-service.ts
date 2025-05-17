@@ -134,19 +134,6 @@ export const getVaccineService = async (id: string) => {
   try {
     const getVaccine = await getVaccineRepository(id);
 
-    console.log(typeof getVaccine);
-
-    const now = new Date();
-    const dia = now.getDate();
-    const mes = now.getMonth();
-    const ano = now.getFullYear();
-
-    const currentDate = new Date(Date.UTC(ano, mes, dia));
-
-    if (currentDate > new Date(getVaccine.date)) {
-      getVaccine.status = VaccineStatus.MISSED;
-    }
-
     if (!getVaccine) {
       throw new Error("Lista de vacinas vazia!");
     }

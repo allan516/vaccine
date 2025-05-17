@@ -1,5 +1,5 @@
 import User from "../database/petSchema";
-import { IPetData } from "../models/IPetData";
+import { IPetData, VaccineStatus } from "../models/IPetData";
 import * as httpResponse from "../utils/https-helper";
 import * as repository from "../repositories/pet-repositories";
 
@@ -116,7 +116,25 @@ export const getPetService = async () => {
 
 export const getPetByIdService = async (id: string) => {
   try {
+    const now = new Date();
+    const dia = now.getDate();
+    const mes = now.getMonth();
+    const ano = now.getFullYear();
+    const currentDate = new Date(ano, mes, dia);
     const getPetById = await repository.getPetByIdRepository(id);
+
+    getPetById.vaccines.forEach((vaccine) => {
+      const dateResponse = new Date(vaccine.date);
+      const diaResponse = dateResponse.getDate();
+      const mesResponse = dateResponse.getMonth();
+      const anoResponse = dateResponse.getFullYear();
+
+      const vaccineDate = new Date(anoResponse, mesResponse, diaResponse);
+
+      if (currentDate > vaccineDate) {
+        vaccine.status = VaccineStatus.MISSED;
+      }
+    });
     const response = await httpResponse.ok(getPetById);
     return response;
   } catch (error) {

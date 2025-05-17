@@ -40,5 +40,5 @@ export const getPetRepository = async () => {
 
 export const getPetByIdRepository = async (id: string) => {
   const response = await User.findById(id, "-__v");
-  return response;
+  return response as IPetData;
 };
