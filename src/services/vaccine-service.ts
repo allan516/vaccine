@@ -143,7 +143,7 @@ export const getVaccineService = async (id: string) => {
 
     const currentDate = new Date(Date.UTC(ano, mes, dia));
 
-    if (currentDate > getVaccine.date) {
+    if (currentDate > new Date(getVaccine.date)) {
       getVaccine.status = VaccineStatus.MISSED;
     }
 
