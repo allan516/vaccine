@@ -13,7 +13,7 @@ export const createVaccineRepository = async (
         vaccines: {
           id: new mongoose.Types.ObjectId(),
           name: vaccine.name,
-          date: vaccine.date || new Date(),
+          date: vaccine.date,
           status: vaccine.status || VaccineStatus.PENDING,
         },
       },
@@ -36,7 +36,7 @@ export const updateVaccineRepository = async (
     {
       $set: {
         "vaccines.$.name": vaccine.name,
-        "vaccines.$.date": vaccine.date || new Date(),
+        "vaccines.$.date": vaccine.date,
       },
     },
     { new: true }

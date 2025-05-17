@@ -33,6 +33,12 @@ export const createVaccineService = async (
       throw new Error("Data inválida");
     }
 
+    if (!vaccine.date) {
+      throw new Error(
+        "Para criar uma vacina é necessário agendar para uma data válida."
+      );
+    }
+
     if (!nameValidate) {
       throw new Error("Nome inválido");
     }

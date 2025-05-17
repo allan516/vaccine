@@ -2,6 +2,7 @@ import User from "../database/petSchema";
 import { IPetData, VaccineStatus } from "../models/IPetData";
 import * as httpResponse from "../utils/https-helper";
 import * as repository from "../repositories/pet-repositories";
+import { updateVaccineService } from "./vaccine-service";
 
 export const createPetService = async (body: IPetData) => {
   let response = null;
@@ -116,6 +117,7 @@ export const getPetService = async () => {
 
 export const getPetByIdService = async (id: string) => {
   try {
+    //refactor
     const now = new Date();
     const dia = now.getDate();
     const mes = now.getMonth();
@@ -133,6 +135,7 @@ export const getPetByIdService = async (id: string) => {
 
       if (currentDate > vaccineDate) {
         vaccine.status = VaccineStatus.MISSED;
+        updateVaccineService(id, vaccine.id, vaccine);
       }
     });
     const response = await httpResponse.ok(getPetById);
