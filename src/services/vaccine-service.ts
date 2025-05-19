@@ -26,8 +26,15 @@ export const createVaccineService = async (
     const mes = now.getMonth();
     const ano = now.getFullYear();
 
-    const currentDate = new Date(Date.UTC(ano, mes, dia));
-    const dateInput = new Date(vaccine.date);
+    const vaccineDate = vaccine.date.toString();
+    const [anoVaccine, mesVaccine, diaVaccine] = vaccineDate.split("-");
+
+    const currentDate = new Date(ano, mes, dia);
+    const dateInput = new Date(
+      parseInt(anoVaccine),
+      parseInt(mesVaccine) - 1,
+      parseInt(diaVaccine)
+    );
 
     if (vaccine.date && currentDate > dateInput) {
       throw new Error("Data inválida");
@@ -73,12 +80,15 @@ export const updateVaccineService = async (
     const ano = now.getFullYear();
 
     const currentDate = new Date(Date.UTC(ano, mes, dia));
-    const dateInput = new Date(vaccine.date);
 
-    if (vaccine.date && currentDate > dateInput) {
-      throw new Error("Data inválida");
-    }
+    const vaccineDate: string = vaccine.date.toString();
+    const [anoVaccine, mesVaccine, diaVaccine] = vaccineDate.split("-");
 
+    const dateInput = new Date(
+      parseInt(anoVaccine),
+      parseInt(mesVaccine) - 1,
+      parseInt(diaVaccine)
+    );
     if (!nameValidate) {
       throw new Error("Nome inválido");
     }
@@ -98,9 +108,21 @@ export const updateVaccineService = async (
         } else if (
           value.id.toString() === vaccineId.toString() &&
           value.name === vaccine.name &&
-          value.date === vaccine.date
+          value.date === vaccine.date &&
+          value.status === vaccine.status
         ) {
           throw new Error("Nenhum campo alterado");
+        } else if (
+          (value.id.toString() === vaccineId.toString() &&
+            vaccine.date > value.date &&
+            currentDate > dateInput) ||
+          (value.id.toString() === vaccineId.toString() &&
+            vaccine.date < value.date &&
+            currentDate > dateInput)
+        ) {
+          console.log(vaccine.date + " " + value.date);
+          console.log(currentDate);
+          throw new Error("Data inválida");
         }
       });
     }

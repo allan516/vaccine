@@ -37,6 +37,7 @@ export const updateVaccineRepository = async (
       $set: {
         "vaccines.$.name": vaccine.name,
         "vaccines.$.date": vaccine.date,
+        "vaccines.$.status": vaccine.status,
       },
     },
     { new: true }
