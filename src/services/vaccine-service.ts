@@ -7,6 +7,7 @@ import {
 } from "../repositories/vaccine-respositories";
 import * as httpResponse from "../utils/https-helper";
 import User from "../database/petSchema";
+import mongoose from "mongoose";
 
 export const createVaccineService = async (
   petId: string,
@@ -95,7 +96,7 @@ export const updateVaccineService = async (
 
     const vaccineExisting = await User.findOne({
       _id: petId,
-      "vaccines.name": vaccine.name,
+      "vaccines.id": new mongoose.Types.ObjectId(vaccineId),
     });
 
     if (vaccineExisting) {
@@ -120,8 +121,6 @@ export const updateVaccineService = async (
             vaccine.date < value.date &&
             currentDate > dateInput)
         ) {
-          console.log(vaccine.date + " " + value.date);
-          console.log(currentDate);
           throw new Error("Data inválida");
         }
       });
