@@ -141,7 +141,7 @@ export const getPetByIdService = async (id: string) => {
         vaccine.status !== VaccineStatus.MISSED
       ) {
         vaccine.status = VaccineStatus.MISSED;
-        updateVaccineService(id, vaccine.id, vaccine);
+        return updateVaccineService(id, vaccine.id, vaccine);
       }
     });
     const response = await httpResponse.ok(getPetById);

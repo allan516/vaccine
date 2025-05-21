@@ -7,8 +7,8 @@ function createApp() {
 
   app.use(
     cors({
-      origin: "https://vaccinecontrol.vercel.app",
-      //origin: "http://localhost:4200",
+      //origin: "https://vaccinecontrol.vercel.app",
+      origin: "http://localhost:4200",
     })
   );
 

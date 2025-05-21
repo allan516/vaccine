@@ -90,41 +90,41 @@ export const updateVaccineService = async (
       parseInt(mesVaccine) - 1,
       parseInt(diaVaccine)
     );
-    if (!nameValidate) {
-      throw new Error("Nome inválido");
-    }
+    // if (!nameValidate) {
+    //   throw new Error("Nome inválido");
+    // }
 
-    const vaccineExisting = await User.findOne({
-      _id: petId,
-      "vaccines.id": new mongoose.Types.ObjectId(vaccineId),
-    });
+    // const vaccineExisting = await User.findOne({
+    //   _id: petId,
+    //   "vaccines.id": new mongoose.Types.ObjectId(vaccineId),
+    // });
 
-    if (vaccineExisting) {
-      vaccineExisting.vaccines.forEach((value) => {
-        if (
-          value.id.toString() !== vaccineId.toString() &&
-          value.name === vaccine.name
-        ) {
-          throw new Error("Está vacina já existe. ");
-        } else if (
-          value.id.toString() === vaccineId.toString() &&
-          value.name === vaccine.name &&
-          value.date === vaccine.date &&
-          value.status === vaccine.status
-        ) {
-          throw new Error("Nenhum campo alterado");
-        } else if (
-          (value.id.toString() === vaccineId.toString() &&
-            vaccine.date > value.date &&
-            currentDate > dateInput) ||
-          (value.id.toString() === vaccineId.toString() &&
-            vaccine.date < value.date &&
-            currentDate > dateInput)
-        ) {
-          throw new Error("Data inválida");
-        }
-      });
-    }
+    // if (vaccineExisting) {
+    //   vaccineExisting.vaccines.forEach((value) => {
+    //     if (
+    //       value.id.toString() !== vaccineId.toString() &&
+    //       value.name === vaccine.name
+    //     ) {
+    //       throw new Error("Está vacina já existe. ");
+    //     } else if (
+    //       value.id.toString() === vaccineId.toString() &&
+    //       value.name === vaccine.name &&
+    //       value.date === vaccine.date &&
+    //       value.status === vaccine.status
+    //     ) {
+    //       throw new Error("Nenhum campo alterado");
+    //     } else if (
+    //       (value.id.toString() === vaccineId.toString() &&
+    //         vaccine.date > value.date &&
+    //         currentDate > dateInput) ||
+    //       (value.id.toString() === vaccineId.toString() &&
+    //         vaccine.date < value.date &&
+    //         currentDate > dateInput)
+    //     ) {
+    //       throw new Error("Data inválida");
+    //     }
+    //   });
+    // }
 
     const updateVaccine = await updateVaccineRepository(
       petId,
