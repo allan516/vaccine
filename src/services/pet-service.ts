@@ -125,9 +125,8 @@ export const getPetByIdService = async (id: string) => {
     const currentDate = new Date(ano, mes, dia);
     const getPetById = await repository.getPetByIdRepository(id);
 
-    getPetById.vaccines.forEach((vaccine) => {
+    for (const vaccine of getPetById.vaccines) {
       const data = vaccine.date.toString();
-
       const [anov, mesv, diav] = data.split("-");
 
       const vaccineDate = new Date(
@@ -141,9 +140,10 @@ export const getPetByIdService = async (id: string) => {
         vaccine.status !== VaccineStatus.MISSED
       ) {
         vaccine.status = VaccineStatus.MISSED;
-        return updateVaccineService(id, vaccine.id, vaccine);
+        await updateVaccineService(id, vaccine.id, vaccine);
       }
-    });
+    }
+
     const response = await httpResponse.ok(getPetById);
     return response;
   } catch (error) {
