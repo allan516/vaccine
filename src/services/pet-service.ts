@@ -3,6 +3,7 @@ import { IPetData, VaccineStatus } from "../models/IPetData";
 import * as httpResponse from "../utils/https-helper";
 import * as repository from "../repositories/pet-repositories";
 import { updateVaccineService } from "./vaccine-service";
+import { validate } from "../utils/dateValidation";
 
 export const createPetService = async (body: IPetData) => {
   let response = null;
@@ -117,29 +118,13 @@ export const getPetService = async () => {
 
 export const getPetByIdService = async (id: string) => {
   try {
-    //refactor
-    const now = new Date();
-    const dia = now.getDate();
-    const mes = now.getMonth();
-    const ano = now.getFullYear();
-    const currentDate = new Date(ano, mes, dia);
     const getPetById = await repository.getPetByIdRepository(id);
 
     for (const vaccine of getPetById.vaccines) {
-      const data = vaccine.date.toString();
-      const [anov, mesv, diav] = data.split("-");
+      const vaccineDateValidate = validate(vaccine);
 
-      const vaccineDate = new Date(
-        parseInt(anov),
-        parseInt(mesv) - 1,
-        parseInt(diav)
-      );
-
-      if (
-        currentDate > vaccineDate &&
-        vaccine.status !== VaccineStatus.MISSED
-      ) {
-        console.log("vaccine debug");
+      if (!vaccineDateValidate && vaccine.status !== VaccineStatus.MISSED) {
+        console.log("vaccine debug " + vaccineDateValidate);
         vaccine.status = VaccineStatus.MISSED;
         await updateVaccineService(id, vaccine.id, vaccine);
       }
