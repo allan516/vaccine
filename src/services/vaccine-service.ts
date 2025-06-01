@@ -1,4 +1,4 @@
-import { IpetVaccine, VaccineStatus } from "../models/IPetData";
+import { IpetVaccine } from "../models/IPetData";
 import {
   createVaccineRepository,
   deleteVaccineRepository,
@@ -8,6 +8,7 @@ import {
 import * as httpResponse from "../utils/https-helper";
 import User from "../database/petSchema";
 import mongoose from "mongoose";
+import { validate } from "../utils/dateValidation";
 
 export const createVaccineService = async (
   petId: string,
@@ -21,23 +22,7 @@ export const createVaccineService = async (
       "vaccines.name": vaccine.name,
     });
 
-    //refatorar
-    const now = new Date();
-    const dia = now.getDate();
-    const mes = now.getMonth();
-    const ano = now.getFullYear();
-
-    const vaccineDate = vaccine.date.toString();
-    const [anoVaccine, mesVaccine, diaVaccine] = vaccineDate.split("-");
-
-    const currentDate = new Date(ano, mes, dia);
-    const dateInput = new Date(
-      parseInt(anoVaccine),
-      parseInt(mesVaccine) - 1,
-      parseInt(diaVaccine)
-    );
-
-    if (vaccine.date && currentDate > dateInput) {
+    if (vaccine.date && validate(vaccine)) {
       throw new Error("Data inválida");
     }
 
@@ -74,22 +59,6 @@ export const updateVaccineService = async (
     const regex = /^[A-Za-z](?:[A-Za-z0-9]|\s(?!\s))*[A-Za-z0-9]$/;
     const nameValidate = regex.test(vaccine.name);
 
-    //refatorar
-    const now = new Date();
-    const dia = now.getDate();
-    const mes = now.getMonth();
-    const ano = now.getFullYear();
-
-    const currentDate = new Date(Date.UTC(ano, mes, dia));
-
-    const vaccineDate: string = vaccine.date.toString();
-    const [anoVaccine, mesVaccine, diaVaccine] = vaccineDate.split("-");
-
-    const dateInput = new Date(
-      parseInt(anoVaccine),
-      parseInt(mesVaccine) - 1,
-      parseInt(diaVaccine)
-    );
     if (!nameValidate) {
       throw new Error("Nome inválido");
     }
@@ -105,7 +74,16 @@ export const updateVaccineService = async (
           value.id.toString() !== vaccineId.toString() &&
           value.name === vaccine.name
         ) {
-          throw new Error("Está vacina já existe. ");
+          throw new Error(
+            "Está vacina já existe. " +
+              value.name +
+              " " +
+              vaccine.name +
+              " IDs: " +
+              value.id +
+              " " +
+              vaccine.id
+          );
         } else if (
           value.id.toString() === vaccineId.toString() &&
           value.name === vaccine.name &&
@@ -116,10 +94,10 @@ export const updateVaccineService = async (
         } else if (
           (value.id.toString() === vaccineId.toString() &&
             vaccine.date > value.date &&
-            currentDate > dateInput) ||
+            validate(vaccine)) ||
           (value.id.toString() === vaccineId.toString() &&
             vaccine.date < value.date &&
-            currentDate > dateInput)
+            validate(vaccine))
         ) {
           throw new Error("Data inválida");
         }

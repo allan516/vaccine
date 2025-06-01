@@ -125,8 +125,9 @@ export const getPetByIdService = async (id: string) => {
 
       if (!vaccineDateValidate && vaccine.status !== VaccineStatus.MISSED) {
         console.log("vaccine debug " + vaccineDateValidate);
+        console.log(vaccine.id);
         vaccine.status = VaccineStatus.MISSED;
-        return await updateVaccineService(id, vaccine.id, vaccine);
+        await updateVaccineService(id, vaccine.id, vaccine);
       }
     }
 
