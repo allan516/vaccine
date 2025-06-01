@@ -22,8 +22,8 @@ export const createVaccineService = async (
       "vaccines.name": vaccine.name,
     });
 
-    if (vaccine.date && validate(vaccine)) {
-      throw new Error("Data inválida");
+    if (vaccine.date && !validate(vaccine)) {
+      throw new Error("Data inválida" + vaccine.date);
     }
 
     if (!vaccine.date) {

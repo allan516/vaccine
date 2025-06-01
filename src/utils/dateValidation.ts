@@ -1,9 +1,9 @@
 import { IpetVaccine } from "../models/IPetData";
 
 export function validate(vaccine: IpetVaccine): boolean {
-  const today = new Date();
-  const date1 = new Date(
-    Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())
+  const date = new Date();
+  const today = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
   );
 
   const vaccineDateString = vaccine.date.toString();
@@ -18,5 +18,5 @@ export function validate(vaccine: IpetVaccine): boolean {
     )
   );
 
-  return vaccineDate.getTime() >= date1.getTime();
+  return vaccineDate.getTime() >= today.getTime();
 }
