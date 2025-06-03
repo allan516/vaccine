@@ -28,7 +28,7 @@ export const createVaccineService = async (
 
     if (!vaccine.date) {
       throw new Error(
-        "Para criar uma vacina é necessário agendar para uma data válida."
+        "Para agendar uma vacina é necessário agendar para uma data válida."
       );
     }
 
@@ -85,12 +85,16 @@ export const updateVaccineService = async (
         } else if (
           (value.id.toString() === vaccineId.toString() &&
             vaccine.date > value.date &&
-            validate(vaccine)) ||
+            !validate(vaccine)) ||
           (value.id.toString() === vaccineId.toString() &&
             vaccine.date < value.date &&
-            validate(vaccine))
+            !validate(vaccine))
         ) {
           throw new Error("Data inválida");
+        } else if (!vaccine.date || !validate(vaccine)) {
+          throw new Error(
+            "Para agendar uma vacina é necessário agendar para uma data válida."
+          );
         }
       });
     }

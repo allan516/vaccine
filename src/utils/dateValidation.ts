@@ -17,6 +17,5 @@ export function validate(vaccine: IpetVaccine): boolean {
       parseInt(vaccineDay)
     )
   );
-
   return vaccineDate.getTime() >= today.getTime();
 }
