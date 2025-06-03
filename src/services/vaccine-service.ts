@@ -74,16 +74,7 @@ export const updateVaccineService = async (
           value.id.toString() !== vaccineId.toString() &&
           value.name === vaccine.name
         ) {
-          throw new Error(
-            "Está vacina já existe. " +
-              value.name +
-              " " +
-              vaccine.name +
-              " IDs: " +
-              value.id +
-              " " +
-              vaccine.id
-          );
+          throw new Error("Está vacina já existe.");
         } else if (
           value.id.toString() === vaccineId.toString() &&
           value.name === vaccine.name &&

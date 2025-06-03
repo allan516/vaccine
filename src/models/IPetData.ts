@@ -14,8 +14,8 @@ export interface IpetVaccine {
 }
 
 export enum VaccineStatus {
-  PENDING = "pending",
-  APPLIED = "applied",
-  EXPIRED = "expired",
-  MISSED = "missed",
+  PENDING = "pendente",
+  APPLIED = "aplicada",
+  EXPIRED = "expirada",
+  MISSED = "perdida",
 }
