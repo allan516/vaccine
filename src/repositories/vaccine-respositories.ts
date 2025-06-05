@@ -14,7 +14,7 @@ export const createVaccineRepository = async (
           id: new mongoose.Types.ObjectId(),
           name: vaccine.name,
           date: vaccine.date,
-          status: vaccine.status || VaccineStatus.PENDING,
+          status: vaccine.status,
         },
       },
     },

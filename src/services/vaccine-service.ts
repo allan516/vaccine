@@ -23,7 +23,7 @@ export const createVaccineService = async (
     });
 
     if (vaccine.date && !validate(vaccine)) {
-      throw new Error("Data inválida" + vaccine.date);
+      throw new Error("Data inválida " + vaccine.date);
     }
 
     if (!vaccine.date) {
@@ -39,7 +39,6 @@ export const createVaccineService = async (
     if (vaccineExisting) {
       throw new Error("Está vacina já existe.");
     }
-
     const createVaccine = await createVaccineRepository(petId, vaccine);
     const response = await httpResponse.ok(createVaccine);
     return response;
@@ -82,18 +81,22 @@ export const updateVaccineService = async (
           value.status === vaccine.status
         ) {
           throw new Error("Nenhum campo alterado");
-        } else if (
-          (value.id.toString() === vaccineId.toString() &&
-            vaccine.date > value.date &&
-            !validate(vaccine)) ||
-          (value.id.toString() === vaccineId.toString() &&
-            vaccine.date < value.date &&
-            !validate(vaccine))
+        }
+        if (
+          value.id.toString() === vaccineId.toString() &&
+          (!vaccine.date || vaccine.date < value.date)
         ) {
-          throw new Error("Data inválida");
-        } else if (!vaccine.date || !validate(vaccine)) {
           throw new Error(
             "Para agendar uma vacina é necessário agendar para uma data válida."
+          );
+        }
+        if (
+          value.id.toString() === vaccineId.toString() &&
+          validate(vaccine) &&
+          vaccine.status !== "pendente"
+        ) {
+          throw new Error(
+            `Impossível atualizar o status para "${vaccine.status}" em uma vacina futura.`
           );
         }
       });
