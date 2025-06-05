@@ -84,7 +84,9 @@ export const updateVaccineService = async (
         }
         if (
           value.id.toString() === vaccineId.toString() &&
-          (!vaccine.date || vaccine.date < value.date)
+          (!vaccine.date ||
+            vaccine.date < value.date ||
+            (vaccine.date > value.date && !validate(vaccine)))
         ) {
           throw new Error(
             "Para agendar uma vacina é necessário agendar para uma data válida."
