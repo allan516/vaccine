@@ -82,12 +82,13 @@ export const updateVaccineService = async (
         ) {
           throw new Error("Nenhum campo alterado");
         }
-        if (
-          value.id.toString() === vaccineId.toString() &&
-          (!vaccine.date ||
-            vaccine.date < value.date ||
-            (vaccine.date > value.date && !validate(vaccine)))
-        ) {
+        if (  
+  value.id.toString() === vaccineId.toString() &&  
+  (
+    !vaccine.date || 
+    (vaccine.date !== value.date && !validate(vaccine))
+  )
+) {
           throw new Error(
             "Para agendar uma vacina é necessário agendar para uma data válida."
           );
